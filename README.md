@@ -54,4 +54,3 @@ Use a fine-grained personal access token with read-only repository metadata acce
 ## Validation
 
 Run `npm run check` to validate the browser and companion JavaScript syntax.
-

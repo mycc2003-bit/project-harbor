@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Project Harbor — a lightweight bilingual home for local and cloud projects.">
+  <meta name="theme-color" content="#f6f9ff">
+  <title>Project Harbor</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23285bea'/%3E%3Cpath d='M16 38c8-8 24-8 32 0M20 45c6-6 18-6 24 0' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='22' r='7' fill='%2376e1c0'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#catalog" data-i18n="skip">דלג לתוכן</a>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Project Harbor home">
+        <span class="brand-mark" aria-hidden="true"><i></i><b></b><em></em></span>
+        <span><strong>PROJECT HARBOR</strong><small data-i18n="brandSub">כל הפרויקטים. מקום אחד.</small></span>
+      </a>
+      <nav class="header-actions" aria-label="Preferences">
+        <button class="icon-button" id="companionButton" type="button" data-tooltip="Local Companion" aria-label="Local Companion"><span class="signal-dot" id="companionDot"></span><span class="desktop-only" data-i18n="companion">מלווה מקומי</span></button>
+        <button class="icon-button" id="themeButton" type="button" aria-label="Change theme"><span id="themeIcon">⌘</span><span class="desktop-only" data-i18n="theme">ערכת קידוד</span></button>
+        <button class="language-button" id="languageButton" type="button" aria-label="Change language">EN</button>
+        <button class="primary-button compact" id="addButton" type="button"><span>＋</span><span data-i18n="addProject">הוספת פרויקט</span></button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="dashboard-head" aria-labelledby="pageTitle">
+        <div>
+          <p class="eyebrow" data-i18n="workspace">מרחב העבודה שלך</p>
+          <h1 id="pageTitle"><span data-i18n="hello">בוקר טוב.</span> <span class="muted-title" data-i18n="overview">הנה תמונת המצב.</span></h1>
+        </div>
+        <div class="summary" aria-label="Project summary">
+          <div><strong id="totalCount">0</strong><span data-i18n="projects">פרויקטים</span></div>
+          <div><strong id="liveCount">0</strong><span data-i18n="live">באוויר</span></div>
+          <div><strong id="localCount">0</strong><span data-i18n="local">מקומיים</span></div>
+        </div>
+      </section>
+
+      <section class="toolbar" aria-label="Catalog controls">
+        <label class="search-field">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" autocomplete="off" data-i18n-placeholder="search" placeholder="חיפוש בשם, טכנולוגיה או תגית…">
+          <kbd>/</kbd>
+        </label>
+        <div class="filter-row" id="filters" role="group" aria-label="Project filter">
+          <button class="filter-chip active" type="button" data-filter="all" data-i18n="all">הכול</button>
+          <button class="filter-chip" type="button" data-filter="live"><span class="mini-dot green"></span><span data-i18n="live">באוויר</span></button>
+          <button class="filter-chip" type="button" data-filter="local"><span class="mini-dot blue"></span><span data-i18n="local">מקומיים</span></button>
+          <button class="filter-chip" type="button" data-filter="attention"><span class="mini-dot amber"></span><span data-i18n="attention">דורש תשומת לב</span></button>
+        </div>
+        <select id="sortSelect" class="sort-select" aria-label="Sort projects">
+          <option value="updated" data-i18n="recent">עודכנו לאחרונה</option>
+          <option value="name" data-i18n="byName">לפי שם</option>
+          <option value="status" data-i18n="byStatus">לפי סטטוס</option>
+        </select>
+      </section>
+
+      <section id="catalog" class="catalog" aria-live="polite"></section>
+      <section id="emptyState" class="empty-state" hidden>
+        <span class="empty-icon">⌘</span>
+        <h2 data-i18n="nothingFound">לא נמצאו פרויקטים</h2>
+        <p data-i18n="nothingFoundSub">אפשר לשנות את החיפוש או להוסיף פרויקט חדש.</p>
+        <button class="primary-button" type="button" data-open-add><span data-i18n="addProject">הוספת פרויקט</span></button>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="detailDialog" class="modal detail-modal" aria-labelledby="detailTitle">
+    <div id="detailContent"></div>
+  </dialog>
+
+  <dialog id="addDialog" class="modal add-modal" aria-labelledby="addTitle">
+    <div class="modal-header">
+      <div><p class="eyebrow" data-i18n="newEntry">רשומה חדשה</p><h2 id="addTitle" data-i18n="addProject">הוספת פרויקט</h2></div>
+      <button class="close-button" type="button" data-close aria-label="Close">×</button>
+    </div>
+    <div class="source-tabs" role="tablist" aria-label="Project source">
+      <button type="button" role="tab" class="source-tab active" data-source="local"><span>⌂</span><b data-i18n="local">מקומי</b><small data-i18n="localHint">תיקייה במחשב</small></button>
+      <button type="button" role="tab" class="source-tab" data-source="github"><span>◈</span><b>GitHub</b><small data-i18n="githubHint">ייבוא מאגר</small></button>
+      <button type="button" role="tab" class="source-tab" data-source="web"><span>◎</span><b data-i18n="web">אתר</b><small data-i18n="webHint">כתובת קיימת</small></button>
+      <button type="button" role="tab" class="source-tab" data-source="manual"><span>＋</span><b data-i18n="manual">ידני</b><small data-i18n="manualHint">מילוי פרטים</small></button>
+    </div>
+
+    <div class="source-panel" data-panel="local">
+      <div class="drop-zone" id="folderDrop">
+        <span class="drop-icon">⌂</span>
+        <h3 data-i18n="chooseFolder">בחירת תיקיית פרויקט</h3>
+        <p data-i18n="chooseFolderSub">הדפדפן יקרא רק קובצי הגדרה ו־README כדי לזהות את הפרויקט.</p>
+        <label class="secondary-button file-button"><span data-i18n="selectFolder">בחירת תיקייה</span><input id="folderInput" type="file" webkitdirectory multiple></label>
+      </div>
+      <div class="divider"><span data-i18n="or">או</span></div>
+      <button class="secondary-button full" id="scanCompanion" type="button" data-i18n="scanWithCompanion">סריקה דרך המלווה המקומי</button>
+      <div id="localResults" class="import-results"></div>
+    </div>
+
+    <div class="source-panel" data-panel="github" hidden>
+      <div class="notice"><span>◈</span><p><b data-i18n="githubConnect">חיבור אישי ל־GitHub</b><small data-i18n="githubPrivacy">המפתח נשמר רק במכשיר שלך ונשלח ישירות ל־GitHub.</small></p></div>
+      <label class="field"><span>Personal access token</span><input id="githubToken" type="password" autocomplete="off" placeholder="github_pat_…"></label>
+      <label class="check-row"><input id="rememberToken" type="checkbox"><span data-i18n="rememberDevice">לזכור במכשיר הזה</span></label>
+      <button class="primary-button full" id="loadRepos" type="button" data-i18n="loadRepos">טעינת המאגרים שלי</button>
+      <div id="githubResults" class="import-results"></div>
+    </div>
+
+    <div class="source-panel" data-panel="web" hidden>
+      <form id="webForm" class="stack-form">
+        <label class="field"><span data-i18n="websiteUrl">כתובת האתר</span><input name="url" type="url" required placeholder="https://example.com"></label>
+        <label class="field"><span data-i18n="projectName">שם הפרויקט</span><input name="name" required placeholder="My website"></label>
+        <label class="field"><span data-i18n="description">תיאור</span><textarea name="description" rows="3"></textarea></label>
+        <button class="primary-button" type="submit" data-i18n="addToHarbor">הוספה ל־Harbor</button>
+      </form>
+    </div>
+
+    <div class="source-panel" data-panel="manual" hidden>
+      <form id="manualForm" class="stack-form two-column">
+        <label class="field"><span data-i18n="projectName">שם הפרויקט</span><input name="name" required></label>
+        <label class="field"><span data-i18n="projectType">סוג</span><select name="type"><option value="web">Web</option><option value="local">Local</option><option value="mobile">Mobile</option><option value="service">Service</option></select></label>
+        <label class="field span-two"><span data-i18n="description">תיאור</span><textarea name="description" rows="3"></textarea></label>
+        <label class="field"><span>GitHub</span><input name="github" type="url"></label>
+        <label class="field"><span data-i18n="liveUrl">כתובת חיה</span><input name="liveUrl" type="url"></label>
+        <label class="field"><span data-i18n="framework">טכנולוגיה</span><input name="framework" placeholder="Next.js, Python…"></label>
+        <label class="field"><span data-i18n="tags">תגיות</span><input name="tags" placeholder="dashboard, client"></label>
+        <button class="primary-button span-two" type="submit" data-i18n="addToHarbor">הוספה ל־Harbor</button>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog id="companionDialog" class="modal companion-modal" aria-labelledby="companionTitle">
+    <div class="modal-header"><div><p class="eyebrow" data-i18n="localRuntime">הרצה מקומית</p><h2 id="companionTitle" data-i18n="companion">מלווה מקומי</h2></div><button class="close-button" type="button" data-close aria-label="Close">×</button></div>
+    <div id="companionStatus" class="companion-status"></div>
+    <div id="companionProjects" class="runtime-list"></div>
+    <pre id="logViewer" class="log-viewer" hidden></pre>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

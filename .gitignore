@@ -1,0 +1,6 @@
+node_modules/
+.env
+companion/projects.local.json
+companion/companion.local.json
+.sites-runtime/
+

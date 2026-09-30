@@ -1,0 +1,14 @@
+{
+  "name": "project-harbor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A lightweight bilingual project control hub",
+  "scripts": {
+    "check": "node --check dist/app.js && node --check companion/server.js",
+    "companion": "node companion/server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
+

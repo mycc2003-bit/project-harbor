@@ -1,0 +1,10 @@
+{
+  "port": 4777,
+  "scanRoots": [],
+  "allowedOrigins": [
+    "http://127.0.0.1:4777",
+    "http://localhost:4777"
+  ],
+  "maxScanDepth": 3
+}
+

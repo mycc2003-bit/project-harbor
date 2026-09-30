@@ -1,0 +1,19 @@
+{
+  "projects": [
+    {
+      "id": "my-web-app",
+      "name": "My Web App",
+      "folder": "C:\\Projects\\my-web-app",
+      "command": ["npm.cmd", "run", "dev"],
+      "port": 3000
+    },
+    {
+      "id": "python-service",
+      "name": "Python Service",
+      "folder": "C:\\Projects\\python-service",
+      "command": ["python.exe", "-m", "uvicorn", "app:app", "--reload"],
+      "port": 8000
+    }
+  ]
+}
+
