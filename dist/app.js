@@ -240,6 +240,52 @@ function setupWebMcp() {
   const controller = new AbortController();
   Promise.resolve(context.registerTool({ name: "list_projects", title: "List projects", description: "List the visible Project Harbor catalog.", inputSchema: { type: "object", properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true, untrustedContentHint: true }, execute: () => ({ projects: state.projects.map(({ id, name, status, type, framework, links }) => ({ id, name, status, type, framework, links })) }) }, { signal: controller.signal })).catch(() => {});
   Promise.resolve(context.registerTool({ name: "add_project", title: "Add project", description: "Add a manual project to Project Harbor.", inputSchema: { type: "object", properties: { name: { type: "string" }, description: { type: "string" }, liveUrl: { type: "string" } }, required: ["name"], additionalProperties: false }, annotations: { readOnlyHint: false, untrustedContentHint: false }, execute: input => { if (!input?.name) throw new Error("name is required"); const project = { name: input.name, description: input.description || "", type: "web", status: input.liveUrl ? "live" : "attention", framework: "Web", source: "webmcp", links: { liveUrl: safeUrl(input.liveUrl) } }; if (!addProject(project)) throw new Error("project already exists"); return { id: idFrom(input.name), status: "added" }; } }, { signal: controller.signal })).catch(() => {});
+  Promise.resolve(context.registerTool({
+    name: "import_projects",
+    title: "Import projects",
+    description: "Import or update a batch of local, GitHub, and Vercel projects in Project Harbor.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        projects: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              id: { type: "string" }, name: { type: "string" }, description: { type: "string" },
+              type: { type: "string" }, status: { type: "string" }, framework: { type: "string" },
+              source: { type: "string" }, tags: { type: "array", items: { type: "string" } },
+              github: { type: "string" }, vercel: { type: "string" }, liveUrl: { type: "string" }
+            },
+            required: ["name"], additionalProperties: false
+          }
+        }
+      },
+      required: ["projects"], additionalProperties: false
+    },
+    annotations: { readOnlyHint: false, untrustedContentHint: false },
+    execute: input => {
+      if (!Array.isArray(input?.projects)) throw new Error("projects must be an array");
+      let added = 0; let updated = 0;
+      for (const item of input.projects.slice(0, 200)) {
+        if (!item?.name) continue;
+        const id = item.id || idFrom(item.name);
+        const project = {
+          id, name: item.name, description: item.description || "", type: item.type || "web",
+          status: ["live", "local", "attention", "archived"].includes(item.status) ? item.status : "attention",
+          framework: item.framework || "Project", source: item.source || "import",
+          tags: Array.isArray(item.tags) ? item.tags.slice(0, 8) : [],
+          links: { github: safeUrl(item.github), vercel: safeUrl(item.vercel), liveUrl: safeUrl(item.liveUrl) },
+          updatedAt: new Date().toISOString(), accent: item.type === "local" ? "#285bea" : item.source === "vercel" ? "#111827" : "#8f5ae8"
+        };
+        const index = state.projects.findIndex(existing => existing.id === id || existing.name.toLowerCase() === item.name.toLowerCase());
+        if (index >= 0) { state.projects[index] = { ...state.projects[index], ...project, links: { ...state.projects[index].links, ...project.links } }; updated++; }
+        else { state.projects.unshift(project); added++; }
+      }
+      persist(); render();
+      return { added, updated, total: state.projects.length };
+    }
+  }, { signal: controller.signal })).catch(() => {});
 }
 
 document.addEventListener("click", event => {

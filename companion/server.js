@@ -11,6 +11,8 @@ const ROOT = path.resolve(__dirname, "..");
 const DIST = path.join(ROOT, "dist");
 const CONFIG_PATH = process.env.HARBOR_CONFIG || path.join(__dirname, "companion.config.json");
 const PROJECTS_PATH = process.env.HARBOR_PROJECTS || path.join(__dirname, "projects.json");
+const LOCAL_CONFIG_PATH = path.join(__dirname, "companion.local.json");
+const LOCAL_PROJECTS_PATH = path.join(__dirname, "projects.local.json");
 const MAX_BODY = 64 * 1024;
 const processes = new Map();
 const logs = new Map();
@@ -20,9 +22,12 @@ function readJson(file, fallback) {
   catch { return fallback; }
 }
 
-const config = readJson(CONFIG_PATH, { port: 4777, scanRoots: [], allowedOrigins: [], maxScanDepth: 3 });
-const projectConfig = readJson(PROJECTS_PATH, { projects: [] });
-const projects = Array.isArray(projectConfig.projects) ? projectConfig.projects : [];
+const baseConfig = readJson(CONFIG_PATH, { port: 4777, scanRoots: [], allowedOrigins: [], maxScanDepth: 3 });
+const localConfig = readJson(LOCAL_CONFIG_PATH, {});
+const config = { ...baseConfig, ...localConfig };
+const baseProjects = readJson(PROJECTS_PATH, { projects: [] }).projects || [];
+const localProjects = readJson(LOCAL_PROJECTS_PATH, { projects: [] }).projects || [];
+const projects = [...new Map([...baseProjects, ...localProjects].map(project => [project.id, project])).values()];
 
 function normalize(value) { return path.resolve(value).replace(/[\\/]+$/, "").toLowerCase(); }
 function isInside(child, parent) { const rel = path.relative(path.resolve(parent), path.resolve(child)); return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel)); }
