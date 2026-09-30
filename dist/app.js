@@ -47,19 +47,71 @@ const translations = {
   }
 };
 
-const starterProjects = [{
-  id: "project-harbor",
-  name: "Project Harbor",
-  description: { he: "מרכז שליטה קל לפרויקטים מקומיים ובענן.", en: "A lightweight control center for local and cloud projects." },
-  type: "web",
-  status: "live",
-  framework: "Vanilla JS",
-  tags: ["dashboard", "bilingual", "local-first"],
-  links: {},
-  source: "manual",
-  updatedAt: new Date().toISOString(),
-  accent: "#285bea"
-}];
+const starterProjects = [
+  {
+    id: "project-harbor", name: "Project Harbor",
+    description: { he: "מרכז שליטה קל לפרויקטים מקומיים ובענן.", en: "A lightweight control center for local and cloud projects." },
+    type: "web", status: "live", framework: "Vanilla JS", tags: ["dashboard", "bilingual", "local-first"],
+    links: { github: "https://github.com/mycc2003-bit/project-harbor", liveUrl: "https://project-harbor.mycc2003.chatgpt.site" },
+    source: "github", updatedAt: "2026-10-01T08:00:00.000Z", accent: "#285bea"
+  },
+  {
+    id: "nexos", name: "NEXOS",
+    description: { he: "אפליקציית שולחן עבודה מקומית שנבנתה עם Tauri, React ו־Rust.", en: "A local desktop application built with Tauri, React, and Rust." },
+    type: "local", status: "local", framework: "Tauri 2 · React · Rust", tags: ["desktop", "react", "rust"],
+    links: {}, source: "desktop", updatedAt: "2026-09-30T18:00:00.000Z", accent: "#285bea"
+  },
+  {
+    id: "email-ai-dashboard", name: "Email AI Dashboard",
+    description: { he: "לוח בקרה מקומי לניהול ועבודה עם דואר אלקטרוני.", en: "A local dashboard for managing and working with email." },
+    type: "local", status: "local", framework: "Next.js 14 · TypeScript", tags: ["dashboard", "nextjs", "typescript"],
+    links: {}, source: "desktop", updatedAt: "2026-09-30T18:00:00.000Z", accent: "#18a47a"
+  },
+  {
+    id: "free-claude-code", name: "Free Claude Code",
+    description: { he: "שירות פיתוח מקומי המבוסס על Python ו־FastAPI.", en: "A local development service powered by Python and FastAPI." },
+    type: "local", status: "local", framework: "Python · FastAPI", tags: ["python", "fastapi", "local"],
+    links: {}, source: "desktop", updatedAt: "2026-09-30T18:00:00.000Z", accent: "#e0782f"
+  },
+  {
+    id: "my-jarvis", name: "my-jarvis",
+    description: { he: "פרויקט GitHub עם פריסה פעילה ב־Vercel.", en: "A GitHub project with an active Vercel deployment." },
+    type: "web", status: "live", framework: "Vercel", tags: ["github", "vercel", "web"],
+    links: { github: "https://github.com/mycc2003-bit/my-jarvis", liveUrl: "https://my-jarvis-obyk37xv0-mycc2003-4554.vercel.app" },
+    source: "github + vercel", updatedAt: "2026-09-30T17:00:00.000Z", accent: "#8f5ae8"
+  },
+  {
+    id: "pc", name: "PC",
+    description: { he: "פרויקט GitHub פרטי עם פריסה פעילה ב־Vercel.", en: "A private GitHub project with an active Vercel deployment." },
+    type: "web", status: "live", framework: "Vercel", tags: ["github", "vercel", "web"],
+    links: { github: "https://github.com/mycc2003-bit/PC", liveUrl: "https://pc-6h3ya8vyp-mycc2003-4554.vercel.app" },
+    source: "github + vercel", updatedAt: "2026-09-30T17:00:00.000Z", accent: "#111827"
+  },
+  {
+    id: "my-project", name: "my-project",
+    description: { he: "מאגר פרויקט ציבורי ב־GitHub.", en: "A public project repository on GitHub." },
+    type: "web", status: "attention", framework: "Repository", tags: ["github", "repository"],
+    links: { github: "https://github.com/mycc2003-bit/my-project" }, source: "github", updatedAt: "2026-09-30T16:00:00.000Z", accent: "#8f5ae8"
+  },
+  {
+    id: "nextjs-boilerplate", name: "nextjs-boilerplate",
+    description: { he: "פרויקט בסיס של Next.js השמור ב־GitHub.", en: "A Next.js starter project stored on GitHub." },
+    type: "web", status: "attention", framework: "Next.js", tags: ["github", "nextjs", "starter"],
+    links: { github: "https://github.com/mycc2003-bit/nextjs-boilerplate" }, source: "github", updatedAt: "2026-09-30T16:00:00.000Z", accent: "#285bea"
+  },
+  {
+    id: "nest-home", name: "nest-home",
+    description: { he: "פרויקט אינטרנט עם פריסה פעילה ב־Vercel.", en: "A web project with an active Vercel deployment." },
+    type: "web", status: "live", framework: "Vercel", tags: ["vercel", "web"],
+    links: { liveUrl: "https://nest-home-rf89pryhk-mycc2003-4554.vercel.app" }, source: "vercel", updatedAt: "2026-09-30T15:00:00.000Z", accent: "#18a47a"
+  },
+  {
+    id: "nexus-ai-command-center", name: "nexus-ai-command-center",
+    description: { he: "מרכז פיקוד אינטרנטי עם פריסה פעילה ב־Vercel.", en: "A web command center with an active Vercel deployment." },
+    type: "web", status: "live", framework: "Vercel", tags: ["vercel", "dashboard", "web"],
+    links: { liveUrl: "https://nexus-ai-command-center-ev7ljnwed-mycc2003-4554.vercel.app" }, source: "vercel", updatedAt: "2026-09-30T15:00:00.000Z", accent: "#e0782f"
+  }
+];
 
 const state = {
   projects: loadProjects(),
@@ -78,7 +130,13 @@ const esc = value => String(value ?? "").replace(/[&<>'"]/g, c => ({ "&": "&amp;
 const safeUrl = value => { try { const url = new URL(value); return ["http:", "https:"].includes(url.protocol) ? url.href : ""; } catch { return ""; } };
 
 function loadProjects() {
-  try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); return Array.isArray(saved) ? saved : starterProjects; }
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!Array.isArray(saved)) return starterProjects;
+    const merged = new Map(saved.map(project => [project.id, project]));
+    starterProjects.forEach(project => merged.set(project.id, { ...merged.get(project.id), ...project, links: { ...(merged.get(project.id)?.links || {}), ...project.links } }));
+    return [...merged.values()];
+  }
   catch { return starterProjects; }
 }
 function loadPrefs() { try { return JSON.parse(localStorage.getItem(PREFS_KEY)) || {}; } catch { return {}; } }
@@ -315,3 +373,4 @@ $$('dialog').forEach(dialog => dialog.addEventListener("click", event => { if (e
 const savedToken = localStorage.getItem("project-harbor.github-token") || sessionStorage.getItem("project-harbor.github-token") || "";
 $("#githubToken").value = savedToken; $("#rememberToken").checked = Boolean(localStorage.getItem("project-harbor.github-token"));
 applyPreferences(); render(); checkCompanion(); setupWebMcp();
+
