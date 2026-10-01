@@ -1,4 +1,32 @@
 {
-  "projects": []
+  "projects": [
+    {
+      "id": "nexos",
+      "name": "NEXOS",
+      "folder": "C:\\Users\\mycc2\\Desktop\\פרויקטים\\NEXOS",
+      "command": ["npm.cmd", "run", "app:dev"]
+    },
+    {
+      "id": "email-ai-dashboard",
+      "name": "Email AI Dashboard",
+      "folder": "C:\\Users\\mycc2\\Desktop\\פרויקטים\\Email AI Dashboard\\email-ai-dashboard",
+      "command": ["npm.cmd", "run", "dev"],
+      "port": 3000
+    },
+    {
+      "id": "free-claude-code",
+      "name": "Free Claude Code",
+      "folder": "C:\\Users\\mycc2\\Desktop\\פרויקטים\\Free Claude Code\\free-claude-code-main",
+      "command": ["uv.exe", "run", "fcc-server"]
+    },
+    {
+      "id": "my-project",
+      "name": "Up-Keep · Keeper",
+      "folder": "C:\\Users\\mycc2\\Desktop\\פרויקטים\\Keeper - Building Manager",
+      "command": ["python.exe", "server.py"],
+      "port": 8000
+    }
+  ]
 }
+
 
