@@ -36,7 +36,13 @@
           <div><strong id="totalCount">0</strong><span data-i18n="projects">פרויקטים</span></div>
           <div><strong id="liveCount">0</strong><span data-i18n="live">באוויר</span></div>
           <div><strong id="localCount">0</strong><span data-i18n="local">מקומיים</span></div>
+          <div><strong id="readyCount">0</strong><span data-i18n="ready">מוכנים</span></div>
         </div>
+      </section>
+
+      <section class="sync-strip" aria-label="Connected sources">
+        <div><span class="sync-icon">✓</span><p><b data-i18n="connectedSources">מקורות מחוברים</b><small data-i18n="scannedNow">נסרקו מחדש GitHub, Vercel והתיקיות המקומיות</small></p></div>
+        <div class="source-badges"><span>◈ GitHub · 5</span><span>▲ Vercel · 4</span><span>⌂ Desktop · 3</span></div>
       </section>
 
       <section class="toolbar" aria-label="Catalog controls">
@@ -49,6 +55,7 @@
           <button class="filter-chip active" type="button" data-filter="all" data-i18n="all">הכול</button>
           <button class="filter-chip" type="button" data-filter="live"><span class="mini-dot green"></span><span data-i18n="live">באוויר</span></button>
           <button class="filter-chip" type="button" data-filter="local"><span class="mini-dot blue"></span><span data-i18n="local">מקומיים</span></button>
+          <button class="filter-chip" type="button" data-filter="ready"><span class="mini-dot green"></span><span data-i18n="ready">מוכנים</span></button>
           <button class="filter-chip" type="button" data-filter="attention"><span class="mini-dot amber"></span><span data-i18n="attention">דורש תשומת לב</span></button>
         </div>
         <select id="sortSelect" class="sort-select" aria-label="Sort projects">
@@ -70,6 +77,29 @@
 
   <dialog id="detailDialog" class="modal detail-modal" aria-labelledby="detailTitle">
     <div id="detailContent"></div>
+  </dialog>
+
+  <dialog id="editDialog" class="modal edit-modal" aria-labelledby="editTitle">
+    <div class="modal-header">
+      <div><p class="eyebrow" data-i18n="projectHealth">מצב הפרויקט</p><h2 id="editTitle" data-i18n="editProject">עריכת פרויקט</h2></div>
+      <button class="close-button" type="button" data-close aria-label="Close">×</button>
+    </div>
+    <form id="editForm" class="edit-form two-column">
+      <input name="id" type="hidden">
+      <label class="field"><span data-i18n="projectName">שם הפרויקט</span><input name="name" required></label>
+      <label class="field"><span data-i18n="projectHealth">מצב הפרויקט</span><select name="status"><option value="live">Live</option><option value="local">Local</option><option value="ready">Ready</option><option value="attention">Needs attention</option><option value="archived">Archived</option></select></label>
+      <label class="field"><span data-i18n="projectType">סוג</span><select name="type"><option value="web">Web</option><option value="local">Local</option><option value="service">Service</option><option value="mobile">Mobile</option></select></label>
+      <label class="field"><span data-i18n="framework">טכנולוגיה</span><input name="framework"></label>
+      <label class="field span-two"><span data-i18n="description">תיאור</span><textarea name="description" rows="4"></textarea></label>
+      <label class="field span-two"><span data-i18n="capabilities">יכולות עיקריות</span><textarea name="highlights" rows="5" placeholder="One capability per line"></textarea></label>
+      <label class="field span-two"><span data-i18n="nextStep">השלב הבא</span><textarea name="nextStep" rows="3"></textarea></label>
+      <label class="field"><span>GitHub</span><input name="github" type="url"></label>
+      <label class="field"><span>Vercel</span><input name="vercel" type="url"></label>
+      <label class="field"><span data-i18n="liveUrl">כתובת חיה</span><input name="liveUrl" type="url"></label>
+      <label class="field"><span data-i18n="tags">תגיות</span><input name="tags"></label>
+      <label class="field span-two"><span data-i18n="notes">הערות</span><textarea name="notes" rows="3"></textarea></label>
+      <div class="form-actions span-two"><button class="secondary-button" type="button" data-close data-i18n="cancel">ביטול</button><button class="primary-button" type="submit" data-i18n="saveChanges">שמירת שינויים</button></div>
+    </form>
   </dialog>
 
   <dialog id="addDialog" class="modal add-modal" aria-labelledby="addTitle">
@@ -137,3 +167,4 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
+
