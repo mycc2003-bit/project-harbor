@@ -1,4 +1,4 @@
-const STORAGE_KEY = "project-harbor.projects.v1";
+const STORAGE_KEY = "project-harbor.projects.v2";
 const PREFS_KEY = "project-harbor.preferences.v1";
 const COMPANION_URL = "http://127.0.0.1:4777";
 
@@ -22,7 +22,10 @@ const translations = {
     companionOnline: "המלווה המקומי מחובר", companionOffline: "המלווה המקומי לא פועל", companionOfflineHelp: "יש להפעיל במחשב את קובץ start-companion.cmd. הקטלוג בענן ממשיך לעבוד כרגיל.",
     running: "רץ", stopped: "עצור", start: "הפעלה", stop: "עצירה", logs: "לוגים", noProjectsConfigured: "לא הוגדרו עדיין פרויקטים להפעלה במלווה.",
     scanning: "סורק תיקיות מאושרות…", scanFailed: "הסריקה המקומית נכשלה", codingOn: "ערכת הקידוד הופעלה", codingOff: "ערכת האור הופעלה", addAnother: "הוספת פרויקט חדש",
-    localCatalog: "קטלוג מקומי", open: "פתיחה", tokenRequired: "נדרש מפתח GitHub", invalidUrl: "יש להזין כתובת תקינה"
+    localCatalog: "קטלוג מקומי", open: "פתיחה", tokenRequired: "נדרש מפתח GitHub", invalidUrl: "יש להזין כתובת תקינה",
+    ready: "מוכן", statusReady: "מוכן", editProject: "עריכת פרויקט", saveChanges: "שמירת שינויים", cancel: "ביטול", projectSaved: "השינויים נשמרו",
+    purpose: "מה הפרויקט עושה", capabilities: "יכולות עיקריות", projectHealth: "מצב הפרויקט", technicalDetails: "פרטים טכניים", nextStep: "השלב הבא",
+    verified: "נבדק", connectedSources: "מקורות מחוברים", scannedNow: "נסרקו מחדש GitHub, Vercel והתיקיות המקומיות", version: "גרסה", branch: "ענף", visibility: "חשיפה", deployment: "פריסה", region: "אזור", path: "נתיב מקומי", notes: "הערות"
   },
   en: {
     skip: "Skip to content", brandSub: "Every project. One place.", companion: "Local companion", theme: "Coding theme",
@@ -43,74 +46,64 @@ const translations = {
     companionOnline: "Local companion is connected", companionOffline: "Local companion is not running", companionOfflineHelp: "Run start-companion.cmd on this computer. The cloud catalog still works normally.",
     running: "Running", stopped: "Stopped", start: "Start", stop: "Stop", logs: "Logs", noProjectsConfigured: "No runnable projects are configured in the companion yet.",
     scanning: "Scanning approved folders…", scanFailed: "Local scan failed", codingOn: "Coding theme enabled", codingOff: "Light theme enabled", addAnother: "Add another project",
-    localCatalog: "Local catalog", open: "Open", tokenRequired: "A GitHub token is required", invalidUrl: "Enter a valid URL"
+    localCatalog: "Local catalog", open: "Open", tokenRequired: "A GitHub token is required", invalidUrl: "Enter a valid URL",
+    ready: "Ready", statusReady: "Ready", editProject: "Edit project", saveChanges: "Save changes", cancel: "Cancel", projectSaved: "Changes saved",
+    purpose: "What this project does", capabilities: "Core capabilities", projectHealth: "Project health", technicalDetails: "Technical details", nextStep: "Next step",
+    verified: "Verified", connectedSources: "Connected sources", scannedNow: "GitHub, Vercel, and local folders were rescanned", version: "Version", branch: "Branch", visibility: "Visibility", deployment: "Deployment", region: "Region", path: "Local path", notes: "Notes"
   }
 };
 
 const starterProjects = [
-  {
-    id: "project-harbor", name: "Project Harbor",
-    description: { he: "מרכז שליטה קל לפרויקטים מקומיים ובענן.", en: "A lightweight control center for local and cloud projects." },
-    type: "web", status: "live", framework: "Vanilla JS", tags: ["dashboard", "bilingual", "local-first"],
-    links: { github: "https://github.com/mycc2003-bit/project-harbor", liveUrl: "https://project-harbor.mycc2003.chatgpt.site" },
-    source: "github", updatedAt: "2026-10-01T08:00:00.000Z", accent: "#285bea"
-  },
-  {
-    id: "nexos", name: "NEXOS",
-    description: { he: "אפליקציית שולחן עבודה מקומית שנבנתה עם Tauri, React ו־Rust.", en: "A local desktop application built with Tauri, React, and Rust." },
-    type: "local", status: "local", framework: "Tauri 2 · React · Rust", tags: ["desktop", "react", "rust"],
-    links: {}, source: "desktop", updatedAt: "2026-09-30T18:00:00.000Z", accent: "#285bea"
-  },
-  {
-    id: "email-ai-dashboard", name: "Email AI Dashboard",
-    description: { he: "לוח בקרה מקומי לניהול ועבודה עם דואר אלקטרוני.", en: "A local dashboard for managing and working with email." },
-    type: "local", status: "local", framework: "Next.js 14 · TypeScript", tags: ["dashboard", "nextjs", "typescript"],
-    links: {}, source: "desktop", updatedAt: "2026-09-30T18:00:00.000Z", accent: "#18a47a"
-  },
-  {
-    id: "free-claude-code", name: "Free Claude Code",
-    description: { he: "שירות פיתוח מקומי המבוסס על Python ו־FastAPI.", en: "A local development service powered by Python and FastAPI." },
-    type: "local", status: "local", framework: "Python · FastAPI", tags: ["python", "fastapi", "local"],
-    links: {}, source: "desktop", updatedAt: "2026-09-30T18:00:00.000Z", accent: "#e0782f"
-  },
-  {
-    id: "my-jarvis", name: "my-jarvis",
-    description: { he: "פרויקט GitHub עם פריסה פעילה ב־Vercel.", en: "A GitHub project with an active Vercel deployment." },
-    type: "web", status: "live", framework: "Vercel", tags: ["github", "vercel", "web"],
-    links: { github: "https://github.com/mycc2003-bit/my-jarvis", liveUrl: "https://my-jarvis-obyk37xv0-mycc2003-4554.vercel.app" },
-    source: "github + vercel", updatedAt: "2026-09-30T17:00:00.000Z", accent: "#8f5ae8"
-  },
-  {
-    id: "pc", name: "PC",
-    description: { he: "פרויקט GitHub פרטי עם פריסה פעילה ב־Vercel.", en: "A private GitHub project with an active Vercel deployment." },
-    type: "web", status: "live", framework: "Vercel", tags: ["github", "vercel", "web"],
-    links: { github: "https://github.com/mycc2003-bit/PC", liveUrl: "https://pc-6h3ya8vyp-mycc2003-4554.vercel.app" },
-    source: "github + vercel", updatedAt: "2026-09-30T17:00:00.000Z", accent: "#111827"
-  },
-  {
-    id: "my-project", name: "my-project",
-    description: { he: "מאגר פרויקט ציבורי ב־GitHub.", en: "A public project repository on GitHub." },
-    type: "web", status: "attention", framework: "Repository", tags: ["github", "repository"],
-    links: { github: "https://github.com/mycc2003-bit/my-project" }, source: "github", updatedAt: "2026-09-30T16:00:00.000Z", accent: "#8f5ae8"
-  },
-  {
-    id: "nextjs-boilerplate", name: "nextjs-boilerplate",
-    description: { he: "פרויקט בסיס של Next.js השמור ב־GitHub.", en: "A Next.js starter project stored on GitHub." },
-    type: "web", status: "attention", framework: "Next.js", tags: ["github", "nextjs", "starter"],
-    links: { github: "https://github.com/mycc2003-bit/nextjs-boilerplate" }, source: "github", updatedAt: "2026-09-30T16:00:00.000Z", accent: "#285bea"
-  },
-  {
-    id: "nest-home", name: "nest-home",
-    description: { he: "פרויקט אינטרנט עם פריסה פעילה ב־Vercel.", en: "A web project with an active Vercel deployment." },
-    type: "web", status: "live", framework: "Vercel", tags: ["vercel", "web"],
-    links: { liveUrl: "https://nest-home-rf89pryhk-mycc2003-4554.vercel.app" }, source: "vercel", updatedAt: "2026-09-30T15:00:00.000Z", accent: "#18a47a"
-  },
-  {
-    id: "nexus-ai-command-center", name: "nexus-ai-command-center",
-    description: { he: "מרכז פיקוד אינטרנטי עם פריסה פעילה ב־Vercel.", en: "A web command center with an active Vercel deployment." },
-    type: "web", status: "live", framework: "Vercel", tags: ["vercel", "dashboard", "web"],
-    links: { liveUrl: "https://nexus-ai-command-center-ev7ljnwed-mycc2003-4554.vercel.app" }, source: "vercel", updatedAt: "2026-09-30T15:00:00.000Z", accent: "#e0782f"
-  }
+  { id: "project-harbor", name: "Project Harbor", type: "web", status: "live", source: "GitHub · OpenAI Sites", framework: "Vanilla JS · Windows Companion", version: "1.0.0", branch: "main", visibility: "Public", deployment: "Production ready", health: "verified", updatedAt: "2026-10-01T08:00:00.000Z", accent: "#285bea",
+    description: { he: "מרכז ניהול דו־לשוני שמרכז פרויקטים מקומיים ובענן, קישורים, מצב פריסה והרצה בטוחה מהמחשב.", en: "A bilingual control hub for local and cloud projects, links, deployment status, and safe local execution." },
+    highlights: { he: ["קטלוג, חיפוש וסינון", "ייבוא GitHub ופרויקטי Web", "מלווה Windows להפעלה, עצירה ולוגים", "עברית/אנגלית וערכת קידוד"], en: ["Catalog, search, and filters", "GitHub and web imports", "Windows companion for run, stop, and logs", "Hebrew/English and coding theme"] },
+    nextStep: { he: "הקטלוג פעיל ומעודכן. אפשר לערוך כל רשומה מתוך חלון הפרטים.", en: "The catalog is live and current. Every record can be edited from its detail view." },
+    tags: ["project hub", "bilingual", "local companion"], links: { github: "https://github.com/mycc2003-bit/project-harbor", readme: "https://github.com/mycc2003-bit/project-harbor#readme", liveUrl: "https://project-harbor.mycc2003.chatgpt.site" } },
+  { id: "nexos", name: "NEXOS", type: "local", status: "local", source: "Desktop", framework: "Tauri 2 · React 19 · Rust", version: "0.1.0", visibility: "Local", health: "configured", updatedAt: "2026-09-30T18:00:00.000Z", accent: "#285bea", localPath: "C:\\Users\\mycc2\\Desktop\\פרויקטים\\NEXOS",
+    description: { he: "שכבת שליטה חכמה ומקומית ל־Windows שמודדת, מייעלת ומבצעת שינויים במחשב עם הרשאות, תיעוד ואפשרות ביטול.", en: "A local-first Windows control layer that measures, optimizes, and changes PC settings with permissions, audit logs, and undo." },
+    highlights: { he: ["Autopilot למדידת FPS ושיפור ביצועים", "שינויים הפיכים עם Undo", "AI מקומי או ספקי ענן אופציונליים", "SQLite, הצפנת DPAPI ומתקין Windows"], en: ["FPS-measuring performance Autopilot", "Reversible changes with undo", "Optional local or cloud AI", "SQLite, DPAPI encryption, and Windows installer"] },
+    nextStep: { he: "מוגדר להרצה מקומית עם npm run dev; להרצת אפליקציית Tauri המלאה יש להשתמש ב־npm run app:dev.", en: "Configured for local web development with npm run dev; use npm run app:dev for the full Tauri application." },
+    tags: ["windows", "automation", "local AI", "performance"], links: {} },
+  { id: "email-ai-dashboard", name: "Email AI Dashboard", type: "local", status: "local", source: "Desktop", framework: "Next.js 14 · TypeScript · Claude", version: "0.1.0", visibility: "Local", health: "configured", updatedAt: "2026-09-30T18:00:00.000Z", accent: "#18a47a", localPath: "C:\\Users\\mycc2\\Desktop\\פרויקטים\\Email AI Dashboard\\email-ai-dashboard",
+    description: { he: "דשבורד אישי ל־Gmail ול־Google Calendar שמסכם דואר ויומן, מציע פעולות עם Claude ומבצע אותן רק לאחר אישור מפורש.", en: "A personal Gmail and Google Calendar dashboard that summarizes mail and events, proposes Claude-powered actions, and executes only after approval." },
+    highlights: { he: ["תדריך תיבה ויומן לשבעה ימים", "Inbox Zero עם טיוטות לאישור", "צ'אט לחיפוש והכנת פעולות", "Google OAuth וגישה לחשבון מורשה יחיד"], en: ["Inbox and seven-day calendar brief", "Inbox Zero approval queue", "Chat for search and action drafting", "Google OAuth limited to one allowed account"] },
+    nextStep: { he: "דורש ערכי Google OAuth, NextAuth ו־Anthropic בקובץ הסביבה לפני התחברות מלאה.", en: "Requires Google OAuth, NextAuth, and Anthropic environment values before full sign-in works." },
+    tags: ["gmail", "calendar", "claude", "approval workflow"], links: {} },
+  { id: "free-claude-code", name: "Free Claude Code", type: "local", status: "local", source: "Desktop", framework: "Python 3.14 · FastAPI · uv", version: "Dynamic", visibility: "Local · AGPL-3.0", health: "configured", updatedAt: "2026-09-30T18:00:00.000Z", accent: "#e0782f", localPath: "C:\\Users\\mycc2\\Desktop\\פרויקטים\\Free Claude Code\\free-claude-code-main",
+    description: { he: "שרת Proxy מקומי שמחבר כלי קידוד למבחר ספקי AI תואמי OpenAI, עם החלפת מודלים, נפילה לספק חלופי וממשק ניהול.", en: "A local proxy that connects coding agents to OpenAI-compatible providers with model switching, failover, and an admin interface." },
+    highlights: { he: ["56 ספקים וקטלוג מודלים אחד", "חיבור ל־11 סוכני קידוד", "Failover אוטומטי בין מודלים", "ממשק Web, Desktop, Discord ו־Telegram"], en: ["56 providers in one model catalog", "11 supported coding agents", "Automatic model failover", "Web, desktop, Discord, and Telegram access"] },
+    nextStep: { he: "מוגדר להרצה דרך uv run fcc-server; יש לבחור ספק ולהגדיר את המפתח שלו בממשק הניהול.", en: "Configured to run with uv run fcc-server; select a provider and configure its key in the admin UI." },
+    tags: ["AI proxy", "coding agents", "FastAPI", "multi-provider"], links: {} },
+  { id: "my-jarvis", name: "JARVIS Runtime V3", type: "web", status: "live", source: "GitHub · Vercel", framework: "Next.js 16 · React 19 · PostgreSQL", version: "3.0.0", branch: "main", visibility: "Private", deployment: "READY · Production", region: "iad1", health: "verified", updatedAt: "2026-09-30T17:00:00.000Z", accent: "#8f5ae8",
+    description: { he: "עוזר AI אישי מתמשך עם זיכרון, משימות שניתנות להמשך, ניתוב מודלים, אישורים וכלי ביצוע מבודדים תחת ממשק אחד.", en: "A persistent personal AI assistant with memory, resumable missions, model routing, approvals, and isolated execution behind one interface." },
+    highlights: { he: ["Letta לזיכרון מתמשך", "LangGraph למשימות ו־checkpoints", "LiteLLM לניתוב ונפילה בין מודלים", "Agent Zero לביצוע מבודד עם אישור"], en: ["Letta durable memory", "LangGraph missions and checkpoints", "LiteLLM routing and fallback", "Approval-gated Agent Zero execution"] },
+    nextStep: { he: "הפריסה הראשית תקינה. הענף main מחובר ל־Vercel ויש גם פריסות Preview לפיתוח Voice V2.", en: "Production is healthy. Main is connected to Vercel, with preview deployments for Voice V2 work." },
+    tags: ["personal AI", "memory", "voice", "agent runtime"], links: { github: "https://github.com/mycc2003-bit/my-jarvis", readme: "https://github.com/mycc2003-bit/my-jarvis#readme", vercel: "https://vercel.com/mycc2003-4554/my-jarvis", liveUrl: "https://my-jarvis-one.vercel.app" } },
+  { id: "pc", name: "PC · daedalOS", type: "web", status: "live", source: "GitHub · Vercel", framework: "Next.js 15 · React 19 · BrowserFS", version: "2.0.0", branch: "main", visibility: "Private", deployment: "READY · Production", region: "iad1", health: "verified", updatedAt: "2026-09-30T17:00:00.000Z", accent: "#111827",
+    description: { he: "סביבת שולחן עבודה מלאה בתוך הדפדפן עם מערכת קבצים, חלונות ואפליקציות, אמולטורים, טרמינל ודפדפן Proxy משופר.", en: "A full desktop environment in the browser with a file system, windows and apps, emulators, terminal, and an improved proxy browser." },
+    highlights: { he: ["מערכת קבצים שנשמרת ב־IndexedDB", "חלונות, Start Menu ושורת משימות", "אפליקציות מדיה, קוד ואמולטורים", "Proxy לדפדוף מתוך סביבת העבודה"], en: ["IndexedDB-backed file system", "Windows, Start Menu, and taskbar", "Media, coding, and emulator apps", "Proxy browsing inside the desktop"] },
+    nextStep: { he: "הפריסה האחרונה תקינה; תוקנו התקנות Vercel וקישורים שנפתחו מחוץ לחלון הדפדפן הפנימי.", en: "The latest deployment is healthy; Vercel installation and links escaping the internal browser were fixed." },
+    tags: ["browser OS", "desktop", "emulators", "proxy"], links: { github: "https://github.com/mycc2003-bit/PC", readme: "https://github.com/mycc2003-bit/PC#readme", vercel: "https://vercel.com/mycc2003-4554/pc", liveUrl: "https://pc-three-eta.vercel.app" } },
+  { id: "my-project", name: "Up-Keep · Keeper", type: "service", status: "ready", source: "GitHub", framework: "Python stdlib · SQLite · Vanilla JS", branch: "main", visibility: "Public", health: "ready", updatedAt: "2026-09-30T16:00:00.000Z", accent: "#8f5ae8",
+    description: { he: "מערכת ניהול בניינים לבעלים יחיד. Keeper מרכז בניינים, קריאות שירות, ספקים, חשבוניות, אירועים והודעות ומוסיף עוזר AI עם שער אישור.", en: "A single-owner building management system. Keeper manages buildings, tickets, vendors, invoices, events, and messages with an approval-gated AI assistant." },
+    highlights: { he: ["שרת Python ללא תלויות חיצוניות", "SQLite עם עשר טבלאות ויומן פעילות", "מסגרת יכולות מודולרית", "פעולות חיצוניות עוברות propose → confirm → execute"], en: ["Dependency-free Python server", "SQLite with ten tables and activity log", "Modular capability framework", "External actions use propose → confirm → execute"] },
+    nextStep: { he: "המאגר תקין ומוכן להרצה מקומית ב־python server.py. אין כרגע פריסת Web ציבורית, ולכן הוא מסומן מוכן ולא תקול.", en: "The repository is healthy and ready to run locally with python server.py. It has no public web deployment, so it is marked ready rather than broken." },
+    tags: ["property management", "SQLite", "AI assistant", "approval gate"], links: { github: "https://github.com/mycc2003-bit/my-project", readme: "https://github.com/mycc2003-bit/my-project#readme" } },
+  { id: "nextjs-boilerplate", name: "Next.js Boilerplate", type: "web", status: "ready", source: "GitHub", framework: "Next.js 16 · React 19 · Tailwind 4", version: "0.1.0", branch: "main", visibility: "Private", health: "ready", updatedAt: "2026-09-30T16:00:00.000Z", accent: "#285bea",
+    description: { he: "תבנית התחלה נקייה ליישום Next.js מודרני. כרגע זה בסיס לפיתוח ולא מוצר נפרד עם פונקציונליות ייעודית.", en: "A clean modern Next.js starter. It is currently a development foundation rather than a separate product with custom functionality." },
+    highlights: { he: ["Next.js 16 ו־App Router", "React 19 ו־TypeScript", "Tailwind CSS 4", "פקודות פיתוח, build ו־lint מוכנות"], en: ["Next.js 16 and App Router", "React 19 and TypeScript", "Tailwind CSS 4", "Ready dev, build, and lint scripts"] },
+    nextStep: { he: "המאגר תקין. לפני פריסה כדאי להגדיר מה המוצר שייבנה עליו ולהחליף את תוכן ברירת המחדל.", en: "The repository is healthy. Define the product and replace the default starter content before deploying it." },
+    tags: ["starter", "Next.js", "TypeScript", "Tailwind"], links: { github: "https://github.com/mycc2003-bit/nextjs-boilerplate", readme: "https://github.com/mycc2003-bit/nextjs-boilerplate#readme" } },
+  { id: "nest-home", name: "Nest Home", type: "web", status: "live", source: "Vercel", framework: "Vite", deployment: "READY · Production", region: "iad1", health: "verified", updatedAt: "2026-09-30T15:00:00.000Z", accent: "#18a47a",
+    description: { he: "פרויקט Web שנבנה ב־Vite ומפורסם ב־Vercel. הפריסה נוצרה דרך CLI ונבדקה כ־READY עם כתובת קבועה.", en: "A Vite web project published on Vercel. It was deployed through the CLI and verified READY with a stable alias." },
+    highlights: { he: ["פריסת Production פעילה", "Framework שזוהה: Vite", "11 פריסות מתועדות", "כתובת קבועה ב־Vercel"], en: ["Active production deployment", "Detected framework: Vite", "11 recorded deployments", "Stable Vercel alias"] },
+    nextStep: { he: "הפריסה תקינה. לא נמצא מאגר GitHub מחובר, ולכן פרטי המוצר מוגבלים למידע המאומת מ־Vercel.", en: "The deployment is healthy. No linked GitHub repository was found, so product details are limited to verified Vercel metadata." },
+    tags: ["Vite", "Vercel", "production"], links: { vercel: "https://vercel.com/mycc2003-4554/nest-home", liveUrl: "https://nest-home-lilac.vercel.app" } },
+  { id: "nexus-ai-command-center", name: "Nexus AI Command Center", type: "web", status: "live", source: "Vercel", framework: "Next.js", deployment: "READY · Production", region: "iad1", health: "verified", updatedAt: "2026-09-30T15:00:00.000Z", accent: "#e0782f",
+    description: { he: "מרכז פיקוד מבוסס Next.js שמפורסם ב־Vercel. הפריסה הפעילה נבדקה כ־READY ומחליפה פריסה ראשונית שנכשלה.", en: "A Next.js command center published on Vercel. The active deployment is verified READY and supersedes an earlier failed first deployment." },
+    highlights: { he: ["פריסת Production פעילה", "Framework שזוהה: Next.js", "ארבע פריסות מתועדות", "הפריסה האחרונה תקינה"], en: ["Active production deployment", "Detected framework: Next.js", "Four recorded deployments", "Latest deployment is healthy"] },
+    nextStep: { he: "התקלה בפריסה הראשונה כבר נפתרה בפריסה עדכנית. לא נמצא מאגר GitHub מחובר לסריקה עמוקה יותר.", en: "The first deployment failure has already been resolved by a healthy current deployment. No linked GitHub repository was found for deeper scanning." },
+    tags: ["Next.js", "Vercel", "command center"], links: { vercel: "https://vercel.com/mycc2003-4554/nexus-ai-command-center", liveUrl: "https://nexus-ai-command-center-mocha.vercel.app" } }
 ];
 
 const state = {
@@ -133,8 +126,8 @@ function loadProjects() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (!Array.isArray(saved)) return starterProjects;
-    const merged = new Map(saved.map(project => [project.id, project]));
-    starterProjects.forEach(project => merged.set(project.id, { ...merged.get(project.id), ...project, links: { ...(merged.get(project.id)?.links || {}), ...project.links } }));
+    const merged = new Map(starterProjects.map(project => [project.id, project]));
+    saved.forEach(project => merged.set(project.id, { ...merged.get(project.id), ...project, links: { ...(merged.get(project.id)?.links || {}), ...(project.links || {}) } }));
     return [...merged.values()];
   }
   catch { return starterProjects; }
@@ -151,7 +144,7 @@ function relativeTime(date) {
   if (hours < 24) return t("hoursAgo", { n: hours });
   return t("daysAgo", { n: Math.floor(hours / 24) });
 }
-function statusLabel(status) { return t({ live: "statusLive", local: "statusLocal", attention: "statusAttention", archived: "statusArchived" }[status] || "statusLocal"); }
+function statusLabel(status) { return t({ live: "statusLive", local: "statusLocal", ready: "statusReady", attention: "statusAttention", archived: "statusArchived" }[status] || "statusLocal"); }
 
 function applyPreferences() {
   document.documentElement.lang = state.lang;
@@ -180,8 +173,9 @@ function render() {
   catalog.innerHTML = projects.map((project, index) => {
     const links = Object.entries(project.links || {}).filter(([, value]) => value).slice(0, 3);
     return `<article class="project-card" style="--accent:${esc(project.accent || "#285bea")}" data-index="${String(index + 1).padStart(2, "0")}">
-      <div class="card-top"><span class="project-icon">${esc(initials(project.name))}</span><span class="status-badge ${esc(project.status)}"><span class="mini-dot ${project.status === "live" ? "green" : project.status === "attention" ? "amber" : "blue"}"></span>${esc(statusLabel(project.status))}</span></div>
+      <div class="card-top"><span class="project-icon">${esc(initials(project.name))}</span><span class="status-badge ${esc(project.status)}"><span class="mini-dot ${project.status === "live" || project.status === "ready" ? "green" : project.status === "attention" ? "amber" : "blue"}"></span>${esc(statusLabel(project.status))}</span></div>
       <h2>${esc(project.name)}</h2><p class="project-description">${esc(projectText(project, "description") || t("noDescription"))}</p>
+      <div class="source-line"><span>${esc(project.source || "Manual")}</span>${project.health === "verified" ? `<span class="verified-mark">✓ ${esc(t("verified"))}</span>` : ""}</div>
       <div class="tag-row">${[project.framework, ...(project.tags || [])].filter(Boolean).slice(0, 4).map(tag => `<span class="tag">${esc(tag)}</span>`).join("")}</div>
       <div class="card-footer"><span class="updated">${esc(t("updated"))} ${esc(relativeTime(project.updatedAt))}</span><div class="quick-links">
         ${links.map(([type, url]) => `<a class="quick-link" href="${esc(safeUrl(url))}" target="_blank" rel="noopener" aria-label="${esc(type)}">${linkIcon(type)}</a>`).join("")}
@@ -193,17 +187,65 @@ function render() {
   $("#totalCount").textContent = state.projects.length;
   $("#liveCount").textContent = state.projects.filter(p => p.status === "live").length;
   $("#localCount").textContent = state.projects.filter(p => p.type === "local").length;
+  if ($("#readyCount")) $("#readyCount").textContent = state.projects.filter(p => p.status === "ready").length;
 }
 
 function openDetail(id) {
   const project = state.projects.find(item => item.id === id);
   if (!project) return;
   const links = Object.entries(project.links || {}).filter(([, value]) => value);
+  const highlights = project.highlights?.[state.lang] || project.highlights?.en || project.highlights?.he || [];
+  const facts = [
+    [t("technology"), project.framework], [t("version"), project.version], [t("branch"), project.branch],
+    [t("visibility"), project.visibility], [t("deployment"), project.deployment], [t("region"), project.region]
+  ].filter(([, value]) => value);
   $("#detailContent").innerHTML = `<div class="modal-header"><div><p class="eyebrow">${esc(project.source || "manual")}</p><h2 id="detailTitle">${esc(project.name)}</h2></div><button class="close-button" type="button" data-close aria-label="Close">×</button></div>
-    <div class="detail-body"><div class="detail-hero"><span class="project-icon" style="--accent:${esc(project.accent || "#285bea")}">${esc(initials(project.name))}</span><div><span class="status-badge ${esc(project.status)}">${esc(statusLabel(project.status))}</span><p>${esc(projectText(project, "description") || t("noDescription"))}</p></div></div>
-    <div class="detail-grid"><div class="detail-box"><small>${esc(t("technology"))}</small><b>${esc(project.framework || "—")}</b></div><div class="detail-box"><small>${esc(t("source"))}</small><b>${esc(project.source || "Manual")}</b></div><div class="detail-box"><small>${esc(t("lastUpdate"))}</small><b>${esc(relativeTime(project.updatedAt))}</b></div><div class="detail-box"><small>${esc(t("services"))}</small><b>${links.length}</b></div></div>
-    <div class="detail-actions">${links.map(([type, url]) => `<a class="secondary-button" href="${esc(safeUrl(url))}" target="_blank" rel="noopener">${linkIcon(type)} ${esc(t(type === "liveUrl" ? "website" : type))}</a>`).join("")}<button class="secondary-button danger-button" type="button" data-delete="${esc(project.id)}">${esc(t("deleteProject"))}</button></div></div>`;
+    <div class="detail-body"><div class="detail-hero"><span class="project-icon" style="--accent:${esc(project.accent || "#285bea")}">${esc(initials(project.name))}</span><div><div class="detail-status-row"><span class="status-badge ${esc(project.status)}">${esc(statusLabel(project.status))}</span>${project.health === "verified" ? `<span class="verified-mark">✓ ${esc(t("verified"))}</span>` : ""}</div><p>${esc(projectText(project, "description") || t("noDescription"))}</p></div></div>
+    ${highlights.length ? `<section class="detail-section"><h3>${esc(t("capabilities"))}</h3><ul class="feature-list">${highlights.map(item => `<li>${esc(item)}</li>`).join("")}</ul></section>` : ""}
+    <section class="detail-section"><h3>${esc(t("technicalDetails"))}</h3><div class="detail-grid">${facts.map(([label, value]) => `<div class="detail-box"><small>${esc(label)}</small><b>${esc(value)}</b></div>`).join("")}</div></section>
+    ${project.localPath ? `<section class="detail-section"><h3>${esc(t("path"))}</h3><code class="path-box">${esc(project.localPath)}</code></section>` : ""}
+    ${projectText(project, "nextStep") ? `<section class="next-step"><span>✓</span><div><b>${esc(t("nextStep"))}</b><p>${esc(projectText(project, "nextStep"))}</p></div></section>` : ""}
+    ${project.notes ? `<section class="detail-section"><h3>${esc(t("notes"))}</h3><p class="detail-note">${esc(project.notes)}</p></section>` : ""}
+    <div class="detail-actions"><button class="primary-button" type="button" data-edit="${esc(project.id)}">✎ ${esc(t("editProject"))}</button>${links.map(([type, url]) => `<a class="secondary-button" href="${esc(safeUrl(url))}" target="_blank" rel="noopener">${linkIcon(type)} ${esc(t(type === "liveUrl" ? "website" : type))}</a>`).join("")}<button class="secondary-button danger-button" type="button" data-delete="${esc(project.id)}">${esc(t("deleteProject"))}</button></div></div>`;
   $("#detailDialog").showModal();
+}
+
+function openEdit(id) {
+  const project = state.projects.find(item => item.id === id);
+  if (!project) return;
+  const form = $("#editForm");
+  form.elements.id.value = project.id;
+  form.elements.name.value = project.name || "";
+  form.elements.description.value = projectText(project, "description");
+  form.elements.status.value = project.status || "ready";
+  form.elements.type.value = project.type || "web";
+  form.elements.framework.value = project.framework || "";
+  form.elements.tags.value = (project.tags || []).join(", ");
+  form.elements.github.value = project.links?.github || "";
+  form.elements.vercel.value = project.links?.vercel || "";
+  form.elements.liveUrl.value = project.links?.liveUrl || "";
+  form.elements.highlights.value = (project.highlights?.[state.lang] || []).join("\n");
+  form.elements.nextStep.value = projectText(project, "nextStep");
+  form.elements.notes.value = project.notes || "";
+  $("#detailDialog").close();
+  $("#editDialog").showModal();
+}
+
+function saveProjectEdits(form) {
+  const data = Object.fromEntries(new FormData(form));
+  const index = state.projects.findIndex(project => project.id === data.id);
+  if (index < 0) return;
+  const current = state.projects[index];
+  const description = typeof current.description === "object" ? { ...current.description, [state.lang]: data.description.trim() } : { [state.lang]: data.description.trim() };
+  const nextStep = typeof current.nextStep === "object" ? { ...current.nextStep, [state.lang]: data.nextStep.trim() } : { [state.lang]: data.nextStep.trim() };
+  const highlights = { ...(current.highlights || {}), [state.lang]: data.highlights.split("\n").map(item => item.trim()).filter(Boolean) };
+  state.projects[index] = {
+    ...current, name: data.name.trim(), description, status: data.status, type: data.type,
+    framework: data.framework.trim(), tags: data.tags.split(",").map(item => item.trim()).filter(Boolean),
+    highlights, nextStep, notes: data.notes.trim(), updatedAt: new Date().toISOString(),
+    links: { ...current.links, github: safeUrl(data.github), vercel: safeUrl(data.vercel), liveUrl: safeUrl(data.liveUrl) }
+  };
+  persist(); render(); $("#editDialog").close(); toast(t("projectSaved")); openDetail(data.id);
 }
 
 function addProject(project) {
@@ -330,7 +372,7 @@ function setupWebMcp() {
         const id = item.id || idFrom(item.name);
         const project = {
           id, name: item.name, description: item.description || "", type: item.type || "web",
-          status: ["live", "local", "attention", "archived"].includes(item.status) ? item.status : "attention",
+          status: ["live", "local", "ready", "attention", "archived"].includes(item.status) ? item.status : "ready",
           framework: item.framework || "Project", source: item.source || "import",
           tags: Array.isArray(item.tags) ? item.tags.slice(0, 8) : [],
           links: { github: safeUrl(item.github), vercel: safeUrl(item.vercel), liveUrl: safeUrl(item.liveUrl) },
@@ -348,6 +390,7 @@ function setupWebMcp() {
 
 document.addEventListener("click", event => {
   const detail = event.target.closest("[data-detail]"); if (detail) openDetail(detail.dataset.detail);
+  const edit = event.target.closest("[data-edit]"); if (edit) openEdit(edit.dataset.edit);
   if (event.target.closest("[data-open-add]")) $("#addDialog").showModal();
   if (event.target.closest("[data-close]")) event.target.closest("dialog").close();
   const remove = event.target.closest("[data-delete]"); if (remove) deleteProject(remove.dataset.delete);
@@ -367,6 +410,7 @@ $$('.source-tab').forEach(tab => tab.addEventListener("click", () => { $$('.sour
 $("#folderInput").addEventListener("change", async event => { try { const project = await analyzeFolder(event.target.files); const container = $("#localResults"); container.innerHTML = ""; renderImportItem(project, container, "folder"); toast(t("folderAnalyzed")); } catch { toast(t("analysisFailed")); } });
 $("#webForm").addEventListener("submit", event => { event.preventDefault(); const data = Object.fromEntries(new FormData(event.currentTarget)); const url = safeUrl(data.url); if (!url) return toast(t("invalidUrl")); if (addProject({ name: data.name, description: data.description, type: "web", status: "live", framework: "Website", source: "web", links: { liveUrl: url } })) { event.currentTarget.reset(); $("#addDialog").close(); } });
 $("#manualForm").addEventListener("submit", event => { event.preventDefault(); const data = Object.fromEntries(new FormData(event.currentTarget)); if (addProject({ name: data.name, description: data.description, type: data.type, status: data.liveUrl ? "live" : data.type === "local" ? "local" : "attention", framework: data.framework, tags: data.tags.split(",").map(x => x.trim()).filter(Boolean), source: "manual", links: { github: safeUrl(data.github), liveUrl: safeUrl(data.liveUrl) } })) { event.currentTarget.reset(); $("#addDialog").close(); } });
+$("#editForm").addEventListener("submit", event => { event.preventDefault(); saveProjectEdits(event.currentTarget); });
 document.addEventListener("keydown", event => { if (event.key === "/" && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { event.preventDefault(); $("#searchInput").focus(); } if (event.key === "Escape") $$('dialog[open]').forEach(dialog => dialog.close()); });
 $$('dialog').forEach(dialog => dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close(); }));
 
